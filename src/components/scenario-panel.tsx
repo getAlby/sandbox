@@ -14,6 +14,7 @@ import {
   PaymentPrismsScenario,
   LnurlVerifyScenario,
   WrappedInvoicesScenario,
+  L402Scenario,
 } from "./scenarios";
 import {
   BitcoinConnectButtonScenario,
@@ -54,6 +55,8 @@ export function ScenarioPanel() {
       return <LnurlVerifyScenario />;
     case "wrapped-invoices":
       return <WrappedInvoicesScenario />;
+    case "l402":
+      return <L402Scenario />;
     case "bitcoin-connect-button":
       return <BitcoinConnectButtonScenario />;
     case "connect-wallet":

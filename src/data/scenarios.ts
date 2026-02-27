@@ -639,6 +639,38 @@ The flow: Seller encrypts secret with preimage, publishes ciphertext + plaintext
       },
     ],
   },
+  {
+    id: "l402",
+    title: "L402 Payment Required",
+    description: "Access an API endpoint that requires payment via the L402 protocol.",
+    education:
+      "L402 (formerly LSAT) is a protocol standardizing authentication and micropayments using the Lightning Network. When a client requests a resource without paying, the server replies with a 402 Payment Required status, a Macaroon, and a Lightning invoice. The client pays the invoice, gets the preimage, and uses the Macaroon + preimage in the Authorization header to authenticate.",
+    complexity: "advanced",
+    requiredWallets: ["alice", "bob"],
+    icon: "🪙",
+    snippetIds: ["make-invoice", "pay-invoice"] satisfies SnippetId[],
+    prompts: [
+      {
+        title: "Premium Weather API",
+        description:
+          "Build a weather application that pays for detailed weather forecasts using the L402 protocol.",
+        prompt: `Build a weather application where the client pays for each premium weather report or forecast using L402.
+
+Requirements:
+- A dashboard showing basic current weather for free (e.g. city name and current temp)
+- A "Premium Forecast" button to see a detailed 7-day hourly forecast
+- When the client requests premium data, the server responds with HTTP 402 + Invoice + Macaroon
+- The client automatically pays the invoice over Lightning
+- The client gets the preimage and retries the request with Authorization: L402 <macaroon>:<preimage>
+- The premium weather data is then displayed on the dashboard with beautiful weather cards
+- Display a real-time log of the L402 automated negotiation (Request -> 402 -> Pay -> Retry -> 200)
+- Use React and TypeScript
+- Write tests using vitest and playwright. Take screenshots and review the screenshots.
+
+The flow: Client requests premium forecast → Server returns 402 + Invoice → Client pays invoice → Client requests data with auth → Server returns premium weather data.`,
+      },
+    ],
+  },
   // {
   //   id: "transaction-history",
   //   title: "Transaction History",
