@@ -12,7 +12,9 @@ import {
   MoreVertical,
   Copy,
   CreditCard,
+  QrCode,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import { NWCClient } from "@getalby/sdk/nwc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,6 +31,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { Wallet as WalletType } from "@/types";
 import { useWalletStore, useTransactionStore } from "@/stores";
 import { useFiatValue } from "@/hooks/use-fiat";
@@ -41,6 +49,7 @@ interface WalletCardProps {
 export function WalletCard({ wallet }: WalletCardProps) {
   const [connectionInput, setConnectionInput] = useState("");
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
+  const [showQRDialog, setShowQRDialog] = useState(false);
   const reconnectAttempted = useRef(false);
   const {
     setWalletConnection,
@@ -183,6 +192,7 @@ export function WalletCard({ wallet }: WalletCardProps) {
           <div className="flex items-center gap-2">
             <StatusBadge status={wallet.status} />
             {isConnected && (
+              <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -205,6 +215,10 @@ export function WalletCard({ wallet }: WalletCardProps) {
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Connection Secret
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setShowQRDialog(true)}>
+                    <QrCode className="mr-2 h-4 w-4" />
+                    Show QR Code
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleTopUp}>
                     <CreditCard className="mr-2 h-4 w-4" />
                     Top Up Wallet
@@ -215,6 +229,26 @@ export function WalletCard({ wallet }: WalletCardProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Dialog open={showQRDialog} onOpenChange={setShowQRDialog}>
+                <DialogContent className="sm:max-w-sm">
+                  <DialogHeader>
+                    <DialogTitle>
+                      Connect {wallet.name}'s Wallet
+                    </DialogTitle>
+                  </DialogHeader>
+                  {wallet.connectionString && (
+                    <div className="rounded-lg bg-white p-3 w-full">
+                      <QRCodeSVG
+                        value={wallet.connectionString}
+                        size={undefined}
+                        style={{ width: "100%", height: "auto" }}
+                        level="M"
+                      />
+                    </div>
+                  )}
+                </DialogContent>
+              </Dialog>
+              </>
             )}
           </div>
         </div>
