@@ -70,6 +70,26 @@ export function ScenarioInfo() {
                         </ol>
                       </div>
                     )}
+                  {currentScenario.links &&
+                    currentScenario.links.length > 0 && (
+                      <div className="border-t pt-3">
+                        <h5 className="mb-2 font-medium">Learn more</h5>
+                        <ul className="space-y-1">
+                          {currentScenario.links.map((link, i) => (
+                            <li key={i}>
+                              <a
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline dark:text-blue-400 text-xs"
+                              >
+                                {link.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                 </div>
               </PopoverContent>
             </Popover>

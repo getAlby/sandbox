@@ -566,6 +566,11 @@
   resolved "https://registry.yarnpkg.com/@getalby/lightning-tools/-/lightning-tools-6.1.0.tgz#558b90a83b961cb6aa760e62de69f5b5ceeb2fe9"
   integrity sha512-rGurar9X4Gm+9xwoNYS8s9YLK7ZYqvbqv4KbHLYV0LEeB0HxZHRgmxblGqg+fYfp6iiYHx+edIgUpt9rS3VwFw==
 
+"@getalby/lightning-tools@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@getalby/lightning-tools/-/lightning-tools-8.1.0.tgz#8aefcfba90fd43ccf87e6ccf8b426d21149222fe"
+  integrity sha512-P+wM1zNNwiSxA071jl2sNyPq/jfX02OSAEXIre/dL7P4dj0yC3YeyByI1/nKvPNqaFvXzHQn+7D9+Yo85aocRQ==
+
 "@getalby/sdk@^6.0.2":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@getalby/sdk/-/sdk-6.0.2.tgz#4f3b987cc8a9da4fd755917a7de4499380114ee2"

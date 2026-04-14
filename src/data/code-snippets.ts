@@ -8,7 +8,8 @@ export type SnippetCategory =
   | "lightning-address"
   | "fiat"
   | "advanced"
-  | "bitcoin-connect";
+  | "bitcoin-connect"
+  | "402";
 
 /**
  * Valid snippet IDs - use this type for type-safe snippet references
@@ -60,7 +61,9 @@ export type SnippetId =
   | "bc-launch-modal"
   | "bc-disconnect"
   | "bc-pay-button"
-  | "bc-launch-payment-modal";
+  | "bc-launch-payment-modal"
+  // 402
+  | "fetch-with-l402";
 
 export type CodeLanguage = "javascript" | "typescript" | "bash";
 
@@ -88,6 +91,7 @@ export const SNIPPET_CATEGORIES: {
   { id: "fiat", label: "Fiat Conversion", icon: "dollar-sign" },
   { id: "advanced", label: "Advanced", icon: "code" },
   { id: "bitcoin-connect", label: "Bitcoin Connect", icon: "link" },
+  { id: "402", label: "402", icon: "lock" },
 ];
 
 export const CODE_SNIPPETS: CodeSnippet[] = [
@@ -759,6 +763,40 @@ function CheckoutButton() {
   )
 }`,
     category: "bitcoin-connect",
+  },
+  // 402
+  {
+    id: "fetch-with-l402",
+    title: "fetch402",
+    description:
+      "Fetch a resource protected by HTTP 402 Payment Required. Automatically handles the payment challenge and retries with proof of payment. Works with L402, x402, and MPP protocols.",
+    category: "402",
+    code: `import { fetch402 } from "@getalby/lightning-tools"
+import { nwc } from "@getalby/sdk"
+
+const client = new nwc.NWCClient({
+  nostrWalletConnectUrl: "nostr+walletconnect://...",
+})
+
+// fetch402 automatically:
+// 1. Sends the request
+// 2. On 402, parses the payment challenge (WWW-Authenticate header)
+// 3. Pays the invoice using your wallet
+// 4. Retries the request with proof of payment (Authorization: L402 token:preimage)
+const response = await fetch402(
+  "https://paidendpoint.example.com",
+  {}, // standard fetch options (method, headers, body, etc.)
+  { wallet: client } // NWC client implements the Wallet interface directly
+)
+
+const body = await response.text()
+console.log("Response:", body)
+
+// Server-side resources:
+// L402 utilities: https://github.com/getAlby/js-lightning-tools
+// x402 Facilitator: https://x402.albylabs.com
+// x402 Facilitator (GitHub): https://github.com/getAlby/x402-facilitator
+// 402 Proxy (GitHub): https://github.com/getAlby/402-proxy`,
   },
   {
     id: "bc-launch-payment-modal",

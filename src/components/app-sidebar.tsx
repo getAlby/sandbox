@@ -60,6 +60,7 @@ export function AppSidebar() {
   const regularScenarios = scenarios.filter(
     (s) => !s.section || s.section === "scenarios",
   );
+  const fourzerotwoScenarios = scenarios.filter((s) => s.section === "402");
   const bitcoinConnectScenarios = scenarios.filter(
     (s) => s.section === "bitcoin-connect",
   );
@@ -108,10 +109,35 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {/* 402 Section */}
+        {fourzerotwoScenarios.length > 0 && (
+          <SidebarGroup className="-mt-4">
+            <SidebarGroupLabel className="text-xs font-semibold tracking-widest text-muted-foreground">
+              402
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {fourzerotwoScenarios.map((scenario) => (
+                  <SidebarMenuItem key={scenario.id}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={scenarioId === scenario.id}
+                    >
+                      <Link to={`/${scenario.id}`}>
+                        <span>{scenario.icon}</span>
+                        <span>{scenario.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
         {/* Bitcoin Connect Section */}
         <SidebarGroup className="-mt-4">
           <SidebarGroupLabel className="-mb-1">
-            <div title="Bitcoin Connect: let bitcoin surf the web">
+            <div title="Bitcoin Connect: let bitcoin surf the web" className="pointer-events-none">
               <BitcoinConnectIcon className="size-20" />
             </div>
           </SidebarGroupLabel>

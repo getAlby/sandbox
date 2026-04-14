@@ -863,6 +863,101 @@ The flow: Enter amount → select currency → see converted value in real time.
     requiredWallets: ["alice", "bob"],
     snippetIds: ["bc-init", "bc-launch-payment-modal"],
   },
+  // 402 Section
+  {
+    id: "l402-fetch",
+    title: "L402 Fetch",
+    description:
+      "Bob fetches a paid HTTP resource protected by the L402 protocol. Alice's wallet handles invoice creation.",
+    education:
+      "L402 (formerly LSAT) is a protocol combining HTTP 402 Payment Required with Lightning Network invoices. When Bob requests a protected resource, the server responds with a 402 status and a Lightning invoice. The fetch402 helper automatically pays the invoice using Bob's wallet and retries the request with a proof-of-payment header — all in one call.",
+    icon: "🔐",
+    section: "402",
+    complexity: "simple",
+    requiredWallets: ["alice", "bob"],
+    snippetIds: ["fetch-with-l402"],
+    howItWorks: [
+      {
+        title: "Bob requests the resource",
+        description:
+          "Bob's client sends an HTTP GET to the L402 proxy endpoint (which has Alice's NWC URL embedded).",
+      },
+      {
+        title: "Server responds with 402",
+        description:
+          "The proxy returns HTTP 402 with a WWW-Authenticate header containing a Lightning invoice generated via Alice's NWC connection.",
+      },
+      {
+        title: "fetch402 pays automatically",
+        description:
+          "The fetch402 helper intercepts the 402, pays the invoice using Bob's NWC wallet, and retries the request with an Authorization header containing the proof of payment.",
+      },
+      {
+        title: "Bob receives the resource",
+        description:
+          "The server verifies the payment and returns the protected content. Bob's balance decreases by the invoice amount, Alice's increases.",
+      },
+    ],
+    links: [
+      {
+        label: "js-lightning-tools — 402 utilities (GitHub)",
+        url: "https://github.com/getAlby/js-lightning-tools",
+      },
+      {
+        label: "402 Proxy — GitHub",
+        url: "https://github.com/getAlby/402-proxy",
+      },
+    ],
+  },
+  {
+    id: "x402-fetch",
+    title: "x402 Fetch",
+    description:
+      "Bob fetches a paid HTTP resource protected by the x402 protocol. A Lightning facilitator handles invoice generation and payment verification.",
+    education:
+      "x402 is an open HTTP payment standard that delegates invoice creation and payment verification to a trusted facilitator. When Bob requests a protected resource, the server returns a 402 with a PAYMENT-REQUIRED header containing a Lightning invoice sourced from the facilitator. The fetch402 helper pays the invoice and retries the request with a payment-signature header — the facilitator then confirms the payment and the server delivers the content.",
+    icon: "🔒",
+    section: "402",
+    complexity: "simple",
+    requiredWallets: ["alice", "bob"],
+    snippetIds: ["fetch-with-l402"],
+    howItWorks: [
+      {
+        title: "Bob requests the resource",
+        description:
+          "Bob's client sends an HTTP GET to the x402 proxy endpoint (which has Alice's NWC URL embedded).",
+      },
+      {
+        title: "Server responds with 402",
+        description:
+          "The proxy calls the x402 facilitator to generate a Lightning invoice for Alice, then returns HTTP 402 with a PAYMENT-REQUIRED header containing the invoice and payment requirements.",
+      },
+      {
+        title: "fetch402 pays automatically",
+        description:
+          "The fetch402 helper detects the PAYMENT-REQUIRED header, pays the invoice using Bob's NWC wallet, and retries the request with a payment-signature header containing proof of payment.",
+      },
+      {
+        title: "Facilitator verifies and server responds",
+        description:
+          "The proxy asks the facilitator to verify the payment. On success it proxies the protected content to Bob and settles the payment with the facilitator.",
+      },
+    ],
+    links: [
+      {
+        label: "x402 Facilitator (albylabs.com)",
+        url: "https://x402.albylabs.com",
+      },
+      {
+        label: "x402 Facilitator — GitHub",
+        url: "https://github.com/getAlby/x402-facilitator",
+      },
+      {
+        label: "402 Proxy — GitHub",
+        url: "https://github.com/getAlby/402-proxy",
+      },
+    ],
+  },
 ];
 
 const getComplexityIndex = (complexity: ScenarioComplexity) => {
@@ -882,8 +977,9 @@ const getComplexityIndex = (complexity: ScenarioComplexity) => {
 
 const getSectionIndex = (section?: ScenarioSection) => {
   if (!section || section === "scenarios") return 0;
-  if (section === "bitcoin-connect") return 1;
-  return 2;
+  if (section === "402") return 1;
+  if (section === "bitcoin-connect") return 2;
+  return 3;
 };
 
 export const scenarios = unorderedScenarios.sort((a, b) => {

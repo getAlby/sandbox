@@ -7,11 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@getalby/bitcoin-connect-react": "^3.12.2",
-    "@getalby/lightning-tools": "^6.1.0",
+    "@getalby/lightning-tools": "^8.1.0",
     "@getalby/sdk": "^7.0.0",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
