@@ -958,6 +958,55 @@ The flow: Enter amount → select currency → see converted value in real time.
       },
     ],
   },
+  {
+    id: "mpp-fetch",
+    title: "MPP Fetch",
+    description:
+      "Bob fetches a paid HTTP resource protected by MPP (Machine Payments Protocol). Alice's wallet handles invoice creation directly via NWC.",
+    education:
+      "MPP (Machine Payments Protocol) is a lightweight HTTP payment standard designed for machine-to-machine payments. When Bob requests a protected resource, the server responds with HTTP 402 and a Payment-Required header containing a Lightning invoice generated directly via Alice's NWC connection. The fetch402 helper pays the invoice and retries the request with a Payment header containing the preimage as proof of payment.",
+    icon: "🤖",
+    section: "402",
+    complexity: "simple",
+    requiredWallets: ["alice", "bob"],
+    snippetIds: ["fetch-with-l402"],
+    howItWorks: [
+      {
+        title: "Bob requests the resource",
+        description:
+          "Bob's client sends an HTTP GET to the MPP proxy endpoint (which has Alice's NWC URL embedded).",
+      },
+      {
+        title: "Server responds with 402",
+        description:
+          "The proxy generates a Lightning invoice via Alice's NWC connection and returns HTTP 402 with a Payment-Required header containing the invoice.",
+      },
+      {
+        title: "fetch402 pays automatically",
+        description:
+          "The fetch402 helper detects the Payment-Required header, pays the invoice using Bob's NWC wallet, and retries the request with a Payment header containing the preimage as proof.",
+      },
+      {
+        title: "Bob receives the resource",
+        description:
+          "The server verifies the preimage against the invoice and returns the protected content. Bob's balance decreases by the invoice amount, Alice's increases.",
+      },
+    ],
+    links: [
+      {
+        label: "Lightning Charge Draft (paymentauth.org)",
+        url: "https://paymentauth.org/draft-lightning-charge-00",
+      },
+      {
+        label: "402 Proxy — GitHub",
+        url: "https://github.com/getAlby/402-proxy",
+      },
+      {
+        label: "js-lightning-tools — 402 utilities (GitHub)",
+        url: "https://github.com/getAlby/js-lightning-tools",
+      },
+    ],
+  },
 ];
 
 const getComplexityIndex = (complexity: ScenarioComplexity) => {

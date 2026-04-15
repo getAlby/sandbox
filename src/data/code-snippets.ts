@@ -796,6 +796,7 @@ console.log("Response:", body)
 // L402 utilities: https://github.com/getAlby/js-lightning-tools
 // x402 Facilitator: https://x402.albylabs.com
 // x402 Facilitator (GitHub): https://github.com/getAlby/x402-facilitator
+// MPP (Lightning Charge Draft): https://paymentauth.org/draft-lightning-charge-00
 // 402 Proxy (GitHub): https://github.com/getAlby/402-proxy`,
   },
   {

@@ -21,7 +21,7 @@ import {
   PayButtonScenario,
   PaymentModalScenario,
 } from "./bitcoin-connect";
-import { L402FetchScenario, X402FetchScenario } from "./402";
+import { L402FetchScenario, X402FetchScenario, MPPFetchScenario } from "./402";
 
 export function ScenarioPanel() {
   const { currentScenario } = useScenarioStore();
@@ -67,6 +67,8 @@ export function ScenarioPanel() {
       return <L402FetchScenario />;
     case "x402-fetch":
       return <X402FetchScenario />;
+    case "mpp-fetch":
+      return <MPPFetchScenario />;
     default:
       return null;
   }
