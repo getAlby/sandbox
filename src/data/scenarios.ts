@@ -908,6 +908,15 @@ The flow: Enter amount → select currency → see converted value in real time.
         url: "https://github.com/getAlby/402-proxy",
       },
     ],
+    prompts: [
+      {
+        title: "Paid Data Feed",
+        description:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the price and the total sats spent across calls.",
+        prompt:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the current price and the total sats spent across all calls.",
+      },
+    ],
   },
   {
     id: "x402-fetch",
@@ -957,6 +966,15 @@ The flow: Enter amount → select currency → see converted value in real time.
         url: "https://github.com/getAlby/402-proxy",
       },
     ],
+    prompts: [
+      {
+        title: "Paid Data Feed",
+        description:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the price and the total sats spent across calls.",
+        prompt:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the current price and the total sats spent across all calls.",
+      },
+    ],
   },
   {
     id: "mpp-fetch",
@@ -1004,6 +1022,15 @@ The flow: Enter amount → select currency → see converted value in real time.
       {
         label: "js-lightning-tools — 402 utilities (GitHub)",
         url: "https://github.com/getAlby/js-lightning-tools",
+      },
+    ],
+    prompts: [
+      {
+        title: "Paid Data Feed",
+        description:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the price and the total sats spent across calls.",
+        prompt:
+          "Write a React component that fetches real-time BTC price data from a pay-per-call API using fetch402 and an NWC wallet. Show the current price and the total sats spent across all calls.",
       },
     ],
   },
