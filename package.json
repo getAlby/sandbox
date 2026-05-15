@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@getalby/bitcoin-connect-react": "^3.12.2",
-    "@getalby/lightning-tools": "^8.1.0",
-    "@getalby/sdk": "^7.0.0",
+    "@getalby/lightning-tools": "^8.1.1",
+    "@getalby/sdk": "^8.0.1",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
