@@ -255,17 +255,32 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
         });
       }
 
+      // A paid request can still fail upstream: report the HTTP error, but
+      // keep the payment recorded.
+      const paid = Boolean(response.payment?.paid);
+      if (!step4Id) {
+        updateFlowStep(step1Id, { label: "GET /resource", status: "success" });
+      }
+
       addFlowStep({
         fromWallet: "alice",
         toWallet: "bob",
-        label: "HTTP 200 OK — resource delivered",
+        label: response.ok
+          ? "HTTP 200 OK — resource delivered"
+          : `HTTP ${response.status} — resource not delivered`,
         direction: "right",
-        status: "success",
+        status: response.ok ? "success" : "error",
       });
 
+      if (!response.ok) {
+        setError(`HTTP ${response.status}${paid ? " (payment was made)" : ""}`);
+      }
+
       updateTransaction(txId, {
-        status: "success",
-        description: `402 fetch succeeded: ${protectedUrl}`,
+        status: response.ok || paid ? "success" : "error",
+        description: response.ok
+          ? `402 fetch succeeded: ${protectedUrl}`
+          : `402 fetch returned HTTP ${response.status}${paid ? " after payment" : ""}: ${protectedUrl}`,
       });
 
       // Refresh balances

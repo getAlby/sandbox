@@ -926,9 +926,9 @@ The flow: Enter amount → select currency → see converted value in real time.
     id: "x402-fetch",
     title: "x402 Fetch",
     description:
-      "Bob fetches a paid HTTP resource protected by the x402 protocol. A Lightning facilitator handles invoice generation and payment verification.",
+      "Bob fetches a paid HTTP resource protected by the x402 protocol, using the exact scheme on Bitcoin Lightning.",
     education:
-      "x402 is an open HTTP payment standard that delegates invoice creation and payment verification to a trusted facilitator. When Bob requests a protected resource, the server returns a 402 with a PAYMENT-REQUIRED header containing a Lightning invoice sourced from the facilitator. The fetch402 helper pays the invoice and retries the request with a payment-signature header — the facilitator then confirms the payment and the server delivers the content.",
+      "x402 is an open HTTP payment standard. With the exact scheme on Bitcoin Lightning (lnbtc), the server returns a 402 with a PAYMENT-REQUIRED header containing a fresh Lightning invoice whose description hash commits to the exact request (method, URL, body and selected headers). The fetch402 helper checks the invoice against the request it is about to send, pays it, and retries with a payment-signature header containing the preimage. The server verifies the preimage, marks the payment as used, and delivers the content.",
     icon: "🔒",
     section: "402",
     complexity: "simple",
@@ -943,17 +943,17 @@ The flow: Enter amount → select currency → see converted value in real time.
       {
         title: "Server responds with 402",
         description:
-          "The 402-enabled server calls the x402 facilitator to generate a Lightning invoice for Alice, then returns HTTP 402 with a PAYMENT-REQUIRED header containing the invoice and payment requirements.",
+          "The 402-enabled server creates a Lightning invoice in Alice's wallet, with a description hash bound to Bob's request. It returns HTTP 402 with a PAYMENT-REQUIRED header containing the invoice and payment requirements.",
       },
       {
         title: "fetch402 pays automatically",
         description:
-          "The fetch402 helper detects the PAYMENT-REQUIRED header, pays the invoice using Bob's NWC wallet, and retries the request with a payment-signature header containing proof of payment.",
+          "The fetch402 helper detects the PAYMENT-REQUIRED header. It checks that the invoice is signed by payTo and bound to this request, pays it with Bob's NWC wallet, and retries with a payment-signature header containing the preimage.",
       },
       {
-        title: "Facilitator verifies and server responds",
+        title: "Server verifies and responds",
         description:
-          "The 402-enabled server asks the facilitator to verify the payment. On success it delivers the protected content to Bob and settles the payment with the facilitator.",
+          "The 402-enabled server recomputes the request hash, checks that the preimage matches the invoice's payment hash, and records the payment as used. It then delivers the protected content to Bob.",
       },
     ],
     links: [
@@ -962,12 +962,8 @@ The flow: Enter amount → select currency → see converted value in real time.
         url: "https://getalby.com/blog/agentic-commerce-a-guide-to-l402-x402-and-mpp",
       },
       {
-        label: "x402 Facilitator (albylabs.com)",
-        url: "https://x402.albylabs.com",
-      },
-      {
-        label: "x402 Facilitator — GitHub",
-        url: "https://github.com/getAlby/x402-facilitator",
+        label: "x402 exact scheme on Lightning (spec)",
+        url: "https://github.com/x402-foundation/x402/blob/main/specs/schemes/exact/scheme_exact_lnbtc.md",
       },
       {
         label: "402 Proxy — GitHub",

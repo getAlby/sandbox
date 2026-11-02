@@ -556,6 +556,11 @@
     qrcode-generator "1.4.4"
     zustand "^4.5.7"
 
+"@getalby/lightning-tools@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@getalby/lightning-tools/-/lightning-tools-10.0.0.tgz#2c697febe28e208805d4f2b237724434de871937"
+  integrity sha512-SU4KXcASldsy4UUgDf04Qh2zLjFd0oXQUIbfdocVJy13MhzaudyanOVR+CYrRKzBJbSMgpZMdZIMM853gviuPg==
+
 "@getalby/lightning-tools@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@getalby/lightning-tools/-/lightning-tools-6.0.0.tgz#07c19cdf29ed8e3d51f125fba780d31a29ba0864"
