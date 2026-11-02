@@ -234,7 +234,7 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
           step4Id = addFlowStep({
             fromWallet: "bob",
             toWallet: "alice",
-            label: "GET /resource + PAYMENT-SIGNATURE: preimage",
+            label: "GET /resource + PAYMENT-SIGNATURE (with preimage)",
             direction: "left",
             status: "pending",
           });
@@ -245,15 +245,12 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
 
       const response = await fetch402(endpointUrl, {}, { wallet });
       const body = await response.text();
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${body}`);
-      }
 
       setResponseBody(body);
 
       if (step4Id) {
         updateFlowStep(step4Id, {
-          label: "GET /resource + PAYMENT-SIGNATURE: preimage",
+          label: "GET /resource + PAYMENT-SIGNATURE (with preimage)",
           status: "success",
         });
       }
