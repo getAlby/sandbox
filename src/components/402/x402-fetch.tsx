@@ -73,9 +73,9 @@ function AlicePanel({
       </CardHeader>
       <CardContent className="space-y-3">
         <p className="text-sm text-muted-foreground">
-          Alice's NWC connection is registered with the x402 facilitator. When
-          Bob fetches the resource, the facilitator generates a Lightning
-          invoice on her behalf.
+          The 402 proxy uses Alice's NWC connection to create a Lightning
+          invoice when Bob fetches the resource. The invoice is bound to Bob's
+          exact request.
         </p>
 
         <div className="space-y-2">
@@ -211,7 +211,7 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
           addFlowStep({
             fromWallet: "alice",
             toWallet: "bob",
-            label: `HTTP 402 + X-Payment-Required (via x402 facilitator, ${amountSats} sats)`,
+            label: `HTTP 402 + PAYMENT-REQUIRED (${amountSats} sats)`,
             direction: "right",
             status: "success",
           });
@@ -219,7 +219,7 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
           const step3Id = addFlowStep({
             fromWallet: "bob",
             toWallet: "alice",
-            label: `Pay ${amountSats} sat invoice via x402 facilitator...`,
+            label: `Pay ${amountSats} sat invoice...`,
             direction: "left",
             status: "pending",
           });
@@ -234,7 +234,7 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
           step4Id = addFlowStep({
             fromWallet: "bob",
             toWallet: "alice",
-            label: "GET /resource + X-Payment: signature",
+            label: "GET /resource + PAYMENT-SIGNATURE: preimage",
             direction: "left",
             status: "pending",
           });
@@ -245,12 +245,15 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
 
       const response = await fetch402(endpointUrl, {}, { wallet });
       const body = await response.text();
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${body}`);
+      }
 
       setResponseBody(body);
 
       if (step4Id) {
         updateFlowStep(step4Id, {
-          label: "GET /resource + X-Payment: signature",
+          label: "GET /resource + PAYMENT-SIGNATURE: preimage",
           status: "success",
         });
       }
@@ -318,8 +321,9 @@ function BobPanel({ protectedUrl, priceSats }: BobPanelProps) {
       <CardContent className="space-y-3">
         <p className="text-sm text-muted-foreground">
           Bob calls <code className="text-xs">fetch402</code> which detects the{" "}
-          <code className="text-xs">PAYMENT-REQUIRED</code> header, pays the
-          invoice via the facilitator, and retries with a payment signature.
+          <code className="text-xs">PAYMENT-REQUIRED</code> header, checks
+          the invoice is bound to this request, pays it, and retries with the
+          preimage as proof of payment.
         </p>
 
         <p className="text-xs text-muted-foreground/60 flex items-center gap-1.5">
